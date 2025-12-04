@@ -7,6 +7,8 @@
 
 @layer base {
   :root {
+    /* --- LIGHT MODE DEFAULTS --- */
+    
     /* Primary Colors - Vibrant Blue */
     --color-primary: #3B82F6; /* blue-500 */
     --color-primary-foreground: #FFFFFF; /* white */
@@ -16,39 +18,40 @@
     --color-secondary-foreground: #FFFFFF; /* white */
     
     /* Accent Colors - Amber */
-    --color-accent: #FBBF24; /* amber-400 */
-    --color-accent-foreground: #1F2937; /* gray-800 */
+    /* Using slightly darker amber for better visibility on white */
+    --color-accent: #F59E0B; /* amber-500 */
+    --color-accent-foreground: #FFFFFF; /* white */
     
-    /* Background Colors - Dark slate */
-    --color-background: #0F172A; /* slate-900 */
-    --color-foreground: #F1F5F9; /* slate-100 */
+    /* Background Colors - Clean White/Gray */
+    --color-background: #FFFFFF; /* white */
+    --color-foreground: #0F172A; /* slate-900 */
     
-    /* Surface Colors - Dark gray surfaces */
-    --color-card: #1E293B; /* slate-800 */
-    --color-card-foreground: #F1F5F9; /* slate-100 */
-    --color-popover: #1E293B; /* slate-800 */
-    --color-popover-foreground: #F1F5F9; /* slate-100 */
+    /* Surface Colors - Light gray surfaces */
+    --color-card: #FFFFFF; /* white */
+    --color-card-foreground: #0F172A; /* slate-900 */
+    --color-popover: #FFFFFF; /* white */
+    --color-popover-foreground: #0F172A; /* slate-900 */
     
-    /* Muted Colors - Medium gray */
-    --color-muted: #334155; /* slate-700 */
-    --color-muted-foreground: #94A3B8; /* slate-400 */
+    /* Muted Colors - Light gray */
+    --color-muted: #F1F5F9; /* slate-100 */
+    --color-muted-foreground: #64748B; /* slate-500 */
     
-    /* Border & Input - Subtle borders */
-    --color-border: #334155; /* slate-700 */
-    --color-input: #334155; /* slate-700 */
+    /* Border & Input */
+    --color-border: #E2E8F0; /* slate-200 */
+    --color-input: #E2E8F0; /* slate-200 */
     --color-ring: #3B82F6; /* blue-500 */
     
     /* Semantic Colors */
     --color-success: #10B981; /* emerald-500 */
     --color-success-foreground: #FFFFFF; /* white */
     
-    --color-warning: #FBBF24; /* amber-400 */
-    --color-warning-foreground: #1F2937; /* gray-800 */
+    --color-warning: #F59E0B; /* amber-500 */
+    --color-warning-foreground: #FFFFFF; /* white */
     
-    --color-error: #F87171; /* red-400 */
+    --color-error: #EF4444; /* red-500 */
     --color-error-foreground: #FFFFFF; /* white */
     
-    --color-destructive: #F87171; /* red-400 */
+    --color-destructive: #EF4444; /* red-500 */
     --color-destructive-foreground: #FFFFFF; /* white */
     
     /* Radius */
@@ -56,6 +59,8 @@
   }
 
   .dark {
+    /* --- DARK MODE OVERRIDES --- */
+    
     /* Primary Colors */
     --color-primary: #3B82F6; /* blue-500 */
     --color-primary-foreground: #FFFFFF; /* white */
