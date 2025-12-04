@@ -1,3 +1,4 @@
+// src/pages/transaction-dashboard/components/CategoryPieChart.jsx
 import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 
@@ -56,13 +57,18 @@ const CategoryPieChart = ({ data }) => {
             cx="50%"
             cy="50%"
             labelLine={false}
-            outerRadius={100}
+            outerRadius="80%"
             fill="#8884d8"
             dataKey="value"
             label={({ percentage }) => `${percentage}%`}
+            style={{ outline: 'none' }}
           >
             {data?.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS?.[index % COLORS?.length]} />
+              <Cell 
+                key={`cell-${index}`} 
+                fill={COLORS?.[index % COLORS?.length]} 
+                style={{ outline: 'none' }}
+              />
             ))}
           </Pie>
           <Tooltip content={<CustomTooltip />} />
