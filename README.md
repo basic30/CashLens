@@ -14,7 +14,7 @@ Your Privacy-First AI Financial Companion. CashLens helps you track expenses, ma
 
 - [⚙️ Configuration](#️-configuration)
 
-- [☁️ Deployment](#-deployment)
+- [☁️ Deployment](#%EF%B8%8F-deployment)
 
   - [Deploy on Netlify](#deploy-on-netlify)
   - [Deploy on AWS Amplify](#deploy-on-aws-amplify)
@@ -168,7 +168,6 @@ VITE_OPENAI_API_KEY=your_openai_key  # Optional: For live AI features
 Note: Since this is a client-side app, ensure your API keys have appropriate usage limits if exposed.
 ```
 ---
-
 ## ☁️ Deployment
 You can deploy CashLens to any static hosting provider. Below are instructions for **Netlify** and **AWS**.
 
