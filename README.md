@@ -27,37 +27,37 @@ Your Privacy-First AI Financial Companion. CashLens helps you track expenses, ma
 CashLens is packed with features designed to give you control over your financial life:
 
 ### 📊 Smart Transaction Dashboard
-- Visual Analytics: View monthly spending trends, category distribution (Pie Charts), and daily/weekly breakdowns.
+   - Visual Analytics: View monthly spending trends, category distribution (Pie Charts), and daily/weekly breakdowns.
 
-- Top Merchants: Identify where you spend the most money.
+   - Top Merchants: Identify where you spend the most money.
 
-- Quick Actions: Easily export data to CSV or manage categories.
+   - Quick Actions: Easily export data to CSV or manage categories.
 
 ### 🧠 Financial Insights & AI
-- AI Coach: Receive personalized warnings (e.g., "Food Delivery Overspending") and savings recommendations.
+   - AI Coach: Receive personalized warnings (e.g., "Food Delivery Overspending") and savings recommendations.
 
-- Anomaly Detection: Automatically flags suspicious transactions (high value, unusual time, or location).
+   - Anomaly Detection: Automatically flags suspicious transactions (high value, unusual time, or location).
 
-- Health Score: Get a credit-score-like rating for your financial health (0-100).
+   - Health Score: Get a credit-score-like rating for your financial health (0-100).
 
 ### 💰 Budgeting & Categories
-- Category Management: Edit transaction categories with confidence scores. Supports bulk editing.
+   - Category Management: Edit transaction categories with confidence scores. Supports bulk editing.
 
-- Budget Alerts: Set custom thresholds (e.g., alert at 80% usage) for specific categories like Food, Travel, or Shopping.
+   - Budget Alerts: Set custom thresholds (e.g., alert at 80% usage) for specific categories like Food, Travel, or Shopping.
 
-- Spending Comparison: Compare current spending against historical averages.
+   - Spending Comparison: Compare current spending against historical averages.
 
 ### 🔄 Subscription Tracker
-- Recurring Payments: Track Netflix, Spotify, Gym memberships, and more.
+   - Recurring Payments: Track Netflix, Spotify, Gym memberships, and more.
+ 
+   - Usage Detection: Identify "Unused" or "Hidden" subscriptions to save money.
 
-- Usage Detection: Identify "Unused" or "Hidden" subscriptions to save money.
-
-- Reminders: See next payment dates and annual cost projections.
+   - Reminders: See next payment dates and annual cost projections.
 
 ### 📱 Privacy-First SMS Parsing
-- Local Processing: Parses UPI and bank SMS alerts directly in the browser.
+   - Local Processing: Parses UPI and bank SMS alerts directly in the browser.
 
-- Zero Data Collection: No financial data is uploaded to external servers.
+   - Zero Data Collection: No financial data is uploaded to external servers.
 
 ---
 
