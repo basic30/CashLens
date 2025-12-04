@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import PrimaryNavigation from '../../components/ui/PrimaryNavigation';
 
 import Button from '../../components/ui/Button';
@@ -7,6 +7,25 @@ import FilterPanel from './components/FilterPanel';
 import CategorySummary from './components/CategorySummary';
 import BulkEditPanel from './components/BulkEditPanel';
 import EmptyState from './components/EmptyState';
+
+// Helper for random data
+const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+const getRandomAmount = (min, max) => Math.round(getRandomInt(min, max) / 10) * 10;
+const merchants = [
+  { name: 'Swiggy', upi: 'swiggy@paytm', cat: 'Food' },
+  { name: 'Zomato', upi: 'zomato@paytm', cat: 'Food' },
+  { name: 'Uber', upi: 'uber@axis', cat: 'Travel' },
+  { name: 'Ola', upi: 'ola@paytm', cat: 'Travel' },
+  { name: 'Amazon', upi: 'amazon@icici', cat: 'Shopping' },
+  { name: 'Flipkart', upi: 'flipkart@phonepe', cat: 'Shopping' },
+  { name: 'BigBasket', upi: 'bb@paytm', cat: 'Groceries' },
+  { name: 'JioMart', upi: 'jio@rel', cat: 'Groceries' },
+  { name: 'Netflix', upi: 'netflix@paytm', cat: 'Entertainment' },
+  { name: 'Spotify', upi: 'spotify@upi', cat: 'Entertainment' },
+  { name: 'Apollo', upi: 'apollo@paytm', cat: 'Health' },
+  { name: 'Bescom', upi: 'bescom@upi', cat: 'Bills' },
+  { name: 'Salary', upi: 'corp@hdfc', cat: 'Income' }
+];
 
 const CategoryManagement = () => {
   const [filters, setFilters] = useState({
@@ -19,190 +38,71 @@ const CategoryManagement = () => {
   });
 
   const [selectedTransactions, setSelectedTransactions] = useState(new Set());
+  
+  // Initialize with random mock transactions
+  const [transactions, setTransactions] = useState([]);
+  
+  useEffect(() => {
+    // Generate 15-20 random transactions
+    const count = getRandomInt(15, 20);
+    const newTransactions = Array.from({ length: count }, (_, i) => {
+      const merch = merchants[getRandomInt(0, merchants.length - 1)];
+      const isIncome = merch.cat === 'Income';
+      const type = isIncome ? 'credit' : 'debit';
+      
+      return {
+        id: i + 1,
+        date: `${getRandomInt(1, 30)}/11/2025`,
+        merchant: merch.name,
+        upiId: merch.upi,
+        amount: isIncome ? getRandomAmount(30000, 80000) : getRandomAmount(100, 5000),
+        type: type,
+        category: merch.cat,
+        confidence: getRandomInt(50, 100)
+      };
+    });
+    setTransactions(newTransactions);
+  }, []);
 
-  const mockTransactions = [
-    {
-      id: 1,
-      date: '15/11/2025',
-      merchant: 'Swiggy',
-      upiId: 'swiggy@paytm',
-      amount: 450,
-      type: 'debit',
-      category: 'Food',
-      confidence: 92
-    },
-    {
-      id: 2,
-      date: '15/11/2025',
-      merchant: 'Big Bazaar',
-      upiId: 'bigbazaar@upi',
-      amount: 2340,
-      type: 'debit',
-      category: 'Groceries',
-      confidence: 88
-    },
-    {
-      id: 3,
-      date: '14/11/2025',
-      merchant: 'Uber',
-      upiId: 'uber@paytm',
-      amount: 285,
-      type: 'debit',
-      category: 'Travel',
-      confidence: 95
-    },
-    {
-      id: 4,
-      date: '14/11/2025',
-      merchant: 'Airtel Payments Bank',
-      upiId: 'airtel@paytm',
-      amount: 599,
-      type: 'debit',
-      category: 'Bills',
-      confidence: 98
-    },
-    {
-      id: 5,
-      date: '13/11/2025',
-      merchant: 'BookMyShow',
-      upiId: 'bookmyshow@paytm',
-      amount: 800,
-      type: 'debit',
-      category: 'Entertainment',
-      confidence: 91
-    },
-    {
-      id: 6,
-      date: '13/11/2025',
-      merchant: 'Amazon Pay',
-      upiId: 'amazonpay@icici',
-      amount: 1599,
-      type: 'debit',
-      category: 'Shopping',
-      confidence: 65
-    },
-    {
-      id: 7,
-      date: '12/11/2025',
-      merchant: 'Apollo Pharmacy',
-      upiId: 'apollo@paytm',
-      amount: 450,
-      type: 'debit',
-      category: 'Health',
-      confidence: 89
-    },
-    {
-      id: 8,
-      date: '12/11/2025',
-      merchant: 'Salary Credit',
-      upiId: 'company@hdfc',
-      amount: 75000,
-      type: 'credit',
-      category: 'Income',
-      confidence: 100
-    },
-    {
-      id: 9,
-      date: '11/11/2025',
-      merchant: 'Zomato',
-      upiId: 'zomato@paytm',
-      amount: 380,
-      type: 'debit',
-      category: 'Food',
-      confidence: 94
-    },
-    {
-      id: 10,
-      date: '11/11/2025',
-      merchant: 'DMart',
-      upiId: 'dmart@upi',
-      amount: 1850,
-      type: 'debit',
-      category: 'Groceries',
-      confidence: 87
-    },
-    {
-      id: 11,
-      date: '10/11/2025',
-      merchant: 'Ola Cabs',
-      upiId: 'ola@paytm',
-      amount: 195,
-      type: 'debit',
-      category: 'Travel',
-      confidence: 93
-    },
-    {
-      id: 12,
-      date: '10/11/2025',
-      merchant: 'Myntra',
-      upiId: 'myntra@paytm',
-      amount: 2499,
-      type: 'debit',
-      category: 'Shopping',
-      confidence: 58
-    },
-    {
-      id: 13,
-      date: '09/11/2025',
-      merchant: 'Netflix',
-      upiId: 'netflix@paytm',
-      amount: 649,
-      type: 'debit',
-      category: 'Entertainment',
-      confidence: 97
-    },
-    {
-      id: 14,
-      date: '09/11/2025',
-      merchant: 'Electricity Bill',
-      upiId: 'bescom@upi',
-      amount: 1250,
-      type: 'debit',
-      category: 'Bills',
-      confidence: 99
-    },
-    {
-      id: 15,
-      date: '08/11/2025',
-      merchant: 'Cafe Coffee Day',
-      upiId: 'ccd@paytm',
-      amount: 320,
-      type: 'debit',
-      category: 'Food',
-      confidence: 55
-    }
-  ];
+  // Calculate summaries based on the generated transactions
+  const categorySummaries = useMemo(() => {
+    if (!transactions.length) return [];
+    
+    const summaryMap = {};
+    transactions.forEach(t => {
+      if (!summaryMap[t.category]) {
+        summaryMap[t.category] = { category: t.category, count: 0, amount: 0, totalConf: 0 };
+      }
+      summaryMap[t.category].count += 1;
+      summaryMap[t.category].amount += t.amount;
+      summaryMap[t.category].totalConf += t.confidence;
+    });
 
-  const categorySummaries = [
-    { category: 'Food', count: 45, amount: 12450, accuracy: 89 },
-    { category: 'Groceries', count: 28, amount: 34200, accuracy: 92 },
-    { category: 'Travel', count: 52, amount: 8950, accuracy: 94 },
-    { category: 'Bills', count: 18, amount: 15600, accuracy: 98 },
-    { category: 'Entertainment', count: 22, amount: 6800, accuracy: 88 },
-    { category: 'Shopping', count: 35, amount: 28500, accuracy: 72 },
-    { category: 'Health', count: 12, amount: 5400, accuracy: 85 },
-    { category: 'Income', count: 8, amount: 185000, accuracy: 100 }
-  ];
+    return Object.values(summaryMap).map(s => ({
+      ...s,
+      accuracy: Math.round(s.totalConf / s.count)
+    }));
+  }, [transactions]);
 
   const filteredTransactions = useMemo(() => {
-    return mockTransactions?.filter(transaction => {
-      if (filters?.category !== 'all' && transaction?.category !== filters?.category) {
+    return transactions.filter(transaction => {
+      if (filters.category !== 'all' && transaction.category !== filters.category) {
         return false;
       }
 
-      if (filters?.confidence !== 'all') {
-        if (filters?.confidence === 'high' && transaction?.confidence < 80) return false;
-        if (filters?.confidence === 'medium' && (transaction?.confidence < 60 || transaction?.confidence >= 80)) return false;
-        if (filters?.confidence === 'low' && transaction?.confidence >= 60) return false;
+      if (filters.confidence !== 'all') {
+        if (filters.confidence === 'high' && transaction.confidence < 80) return false;
+        if (filters.confidence === 'medium' && (transaction.confidence < 60 || transaction.confidence >= 80)) return false;
+        if (filters.confidence === 'low' && transaction.confidence >= 60) return false;
       }
 
-      if (filters?.search && !transaction?.merchant?.toLowerCase()?.includes(filters?.search?.toLowerCase())) {
+      if (filters.search && !transaction.merchant.toLowerCase().includes(filters.search.toLowerCase())) {
         return false;
       }
 
       return true;
     });
-  }, [filters]);
+  }, [filters, transactions]);
 
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({ ...prev, [key]: value }));
@@ -220,23 +120,25 @@ const CategoryManagement = () => {
   };
 
   const handleCategoryUpdate = (transactionId, newCategory) => {
-    console.log(`Updated transaction ${transactionId} to category: ${newCategory}`);
+    setTransactions(prev => prev.map(t => 
+      t.id === transactionId ? { ...t, category: newCategory } : t
+    ));
   };
 
   const handleTransactionSelect = (transactionId, isSelected) => {
     setSelectedTransactions(prev => {
       const newSet = new Set(prev);
       if (isSelected) {
-        newSet?.add(transactionId);
+        newSet.add(transactionId);
       } else {
-        newSet?.delete(transactionId);
+        newSet.delete(transactionId);
       }
       return newSet;
     });
   };
 
   const handleSelectAll = () => {
-    if (selectedTransactions?.size === filteredTransactions?.length) {
+    if (selectedTransactions.size === filteredTransactions.length) {
       setSelectedTransactions(new Set());
     } else {
       setSelectedTransactions(new Set(filteredTransactions.map(t => t.id)));
@@ -244,7 +146,9 @@ const CategoryManagement = () => {
   };
 
   const handleBulkUpdate = (category) => {
-    console.log(`Bulk updating ${selectedTransactions?.size} transactions to category: ${category}`);
+    setTransactions(prev => prev.map(t => 
+      selectedTransactions.has(t.id) ? { ...t, category } : t
+    ));
     setSelectedTransactions(new Set());
   };
 
@@ -287,39 +191,39 @@ const CategoryManagement = () => {
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-4">
                     <h2 className="text-lg font-semibold text-foreground">
-                      Transactions ({filteredTransactions?.length})
+                      Transactions ({filteredTransactions.length})
                     </h2>
-                    {filteredTransactions?.length > 0 && (
+                    {filteredTransactions.length > 0 && (
                       <Button
                         variant="ghost"
                         size="sm"
-                        iconName={selectedTransactions?.size === filteredTransactions?.length ? 'CheckSquare' : 'Square'}
+                        iconName={selectedTransactions.size === filteredTransactions.length ? 'CheckSquare' : 'Square'}
                         iconSize={16}
                         onClick={handleSelectAll}
                       >
-                        {selectedTransactions?.size === filteredTransactions?.length ? 'Deselect All' : 'Select All'}
+                        {selectedTransactions.size === filteredTransactions.length ? 'Deselect All' : 'Select All'}
                       </Button>
                     )}
                   </div>
 
-                  {selectedTransactions?.size > 0 && (
+                  {selectedTransactions.size > 0 && (
                     <span className="text-sm text-muted-foreground">
-                      {selectedTransactions?.size} selected
+                      {selectedTransactions.size} selected
                     </span>
                   )}
                 </div>
 
-                {filteredTransactions?.length === 0 ? (
+                {filteredTransactions.length === 0 ? (
                   <EmptyState onReset={handleResetFilters} />
                 ) : (
                   <div className="space-y-3">
-                    {filteredTransactions?.map(transaction => (
+                    {filteredTransactions.map(transaction => (
                       <TransactionRow
-                        key={transaction?.id}
+                        key={transaction.id}
                         transaction={transaction}
                         onCategoryUpdate={handleCategoryUpdate}
                         onSelect={handleTransactionSelect}
-                        isSelected={selectedTransactions?.has(transaction?.id)}
+                        isSelected={selectedTransactions.has(transaction.id)}
                       />
                     ))}
                   </div>
@@ -334,7 +238,7 @@ const CategoryManagement = () => {
         </div>
       </main>
       <BulkEditPanel
-        selectedCount={selectedTransactions?.size}
+        selectedCount={selectedTransactions.size}
         onBulkUpdate={handleBulkUpdate}
         onClearSelection={handleClearSelection}
       />

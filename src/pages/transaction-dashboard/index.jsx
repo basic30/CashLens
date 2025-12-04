@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import PrimaryNavigation from '../../components/ui/PrimaryNavigation';
 import MonthlySpendingCard from './components/MonthlySpendingCard';
 import CategoryPieChart from './components/CategoryPieChart';
@@ -10,177 +10,138 @@ import AIInsightsCard from './components/AIInsightsCard';
 import QuickActionsPanel from './components/QuickActionsPanel';
 import DarkModeToggle from './components/DarkModeToggle';
 
+// Helper functions for random data generation
+const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+const getRandomAmount = (min, max) => Math.round(getRandomInt(min, max) / 10) * 10; // Round to nearest 10
+
 const TransactionDashboard = () => {
   const [showExportSuccess, setShowExportSuccess] = useState(false);
 
-  const categoryData = [
-    { name: "Food", value: 8500, percentage: 22 },
-    { name: "Groceries", value: 6200, percentage: 16 },
-    { name: "Travel", value: 5800, percentage: 15 },
-    { name: "Bills", value: 4500, percentage: 12 },
-    { name: "Entertainment", value: 4200, percentage: 11 },
-    { name: "Shopping", value: 3800, percentage: 10 },
-    { name: "Health", value: 3200, percentage: 8 },
-    { name: "Others", value: 2300, percentage: 6 }
-  ];
+  // Use useMemo to generate data once on component mount (page load/refresh)
+  const dashboardData = useMemo(() => {
+    // 1. Generate Random Monthly Data
+    const months = ["Aug", "Sep", "Oct", "Nov"];
+    const monthlyData = months.map(name => ({
+      name,
+      amount: getRandomAmount(30000, 45000)
+    }));
+    const currentMonthSpending = monthlyData[monthlyData.length - 1].amount;
+    const prevMonthSpending = monthlyData[monthlyData.length - 2].amount;
+    const monthlyChange = (((currentMonthSpending - prevMonthSpending) / prevMonthSpending) * 100).toFixed(1);
 
-  const dailyData = [
-    { name: "15 Nov", amount: 1200 },
-    { name: "16 Nov", amount: 850 },
-    { name: "17 Nov", amount: 1450 },
-    { name: "18 Nov", amount: 980 },
-    { name: "19 Nov", amount: 1650 },
-    { name: "20 Nov", amount: 1100 },
-    { name: "21 Nov", amount: 1380 }
-  ];
+    // 2. Generate Category Data
+    const categories = ["Food", "Groceries", "Travel", "Bills", "Entertainment", "Shopping", "Health", "Others"];
+    let remainingAmount = currentMonthSpending;
+    const categoryData = categories.map((name, index) => {
+      // Give random weights, ensure last one takes remainder or just approximate
+      const isLast = index === categories.length - 1;
+      const value = isLast ? Math.max(0, remainingAmount) : getRandomAmount(1000, Math.max(2000, remainingAmount / 2));
+      remainingAmount -= value;
+      return { name, value, percentage: 0 }; // Percentage calculated below
+    }).filter(c => c.value > 0);
+    
+    // Recalculate total and percentages correctly
+    const totalCat = categoryData.reduce((sum, item) => sum + item.value, 0);
+    categoryData.forEach(item => item.percentage = Math.round((item.value / totalCat) * 100));
+    categoryData.sort((a, b) => b.value - a.value); // Sort by highest spend
 
-  const weeklyData = [
-    { name: "Week 1", amount: 8500 },
-    { name: "Week 2", amount: 9200 },
-    { name: "Week 3", amount: 7800 },
-    { name: "Week 4", amount: 10200 }
-  ];
+    // 3. Generate Daily & Weekly Data
+    const dailyData = Array.from({ length: 7 }, (_, i) => ({
+      name: `${15 + i} Nov`,
+      amount: getRandomAmount(500, 2500)
+    }));
 
-  const monthlyData = [
-    { name: "Aug", amount: 32500 },
-    { name: "Sep", amount: 35800 },
-    { name: "Oct", amount: 34200 },
-    { name: "Nov", amount: 38500 }
-  ];
+    const weeklyData = Array.from({ length: 4 }, (_, i) => ({
+      name: `Week ${i + 1}`,
+      amount: getRandomAmount(7000, 12000)
+    }));
 
-  const topMerchants = [
-    { id: 1, name: "Swiggy", category: "Food", amount: 4200, transactions: 18 },
-    { id: 2, name: "Amazon", category: "Shopping", amount: 3800, transactions: 12 },
-    { id: 3, name: "Uber", category: "Travel", amount: 2900, transactions: 15 },
-    { id: 4, name: "BigBasket", category: "Groceries", amount: 2600, transactions: 8 },
-    { id: 5, name: "Netflix", category: "Entertainment", amount: 1500, transactions: 3 }
-  ];
+    // 4. Generate Recent Transactions
+    const merchantsList = [
+      { name: "Swiggy", cat: "Food" }, { name: "Zomato", cat: "Food" },
+      { name: "Amazon", cat: "Shopping" }, { name: "Flipkart", cat: "Shopping" },
+      { name: "Uber", cat: "Travel" }, { name: "Ola", cat: "Travel" },
+      { name: "BigBasket", cat: "Groceries" }, { name: "JioMart", cat: "Groceries" },
+      { name: "Netflix", cat: "Entertainment" }, { name: "BookMyShow", cat: "Entertainment" },
+      { name: "Apollo Pharmacy", cat: "Health" }, { name: "Electricity Bill", cat: "Bills" }
+    ];
 
-  const recentTransactions = [
-    {
-      id: 1,
-      merchant: "Swiggy",
-      amount: 450,
-      category: "Food",
-      date: "21/11/2025",
-      time: "09:30 AM",
-      type: "expense"
-    },
-    {
-      id: 2,
-      merchant: "Salary Credit",
-      amount: 75000,
-      category: "Income",
-      date: "20/11/2025",
-      time: "11:45 PM",
-      type: "income"
-    },
-    {
-      id: 3,
-      merchant: "Amazon",
-      amount: 1299,
-      category: "Shopping",
-      date: "20/11/2025",
-      time: "06:15 PM",
-      type: "expense"
-    },
-    {
-      id: 4,
-      merchant: "Uber",
-      amount: 285,
-      category: "Travel",
-      date: "20/11/2025",
-      time: "02:30 PM",
-      type: "expense"
-    },
-    {
-      id: 5,
-      merchant: "Apollo Pharmacy",
-      amount: 850,
-      category: "Health",
-      date: "19/11/2025",
-      time: "05:45 PM",
-      type: "expense"
-    },
-    {
-      id: 6,
-      merchant: "BigBasket",
-      amount: 1450,
-      category: "Groceries",
-      date: "19/11/2025",
-      time: "10:20 AM",
-      type: "expense"
-    },
-    {
-      id: 7,
-      merchant: "BookMyShow",
-      amount: 600,
-      category: "Entertainment",
-      date: "18/11/2025",
-      time: "08:00 PM",
-      type: "expense"
-    },
-    {
-      id: 8,
-      merchant: "Electricity Bill",
-      amount: 1200,
-      category: "Bills",
-      date: "18/11/2025",
-      time: "03:15 PM",
-      type: "expense"
-    }
-  ];
+    const recentTransactions = Array.from({ length: 8 }, (_, i) => {
+      const merchantObj = merchantsList[getRandomInt(0, merchantsList.length - 1)];
+      const isIncome = Math.random() > 0.9; // 10% chance of income
+      return {
+        id: i + 1,
+        merchant: isIncome ? "Salary/Refund" : merchantObj.name,
+        amount: isIncome ? getRandomAmount(5000, 50000) : getRandomAmount(100, 5000),
+        category: isIncome ? "Income" : merchantObj.cat,
+        date: `${21 - i}/11/2025`,
+        time: `${getRandomInt(1, 12)}:${getRandomInt(10, 59)} ${Math.random() > 0.5 ? 'AM' : 'PM'}`,
+        type: isIncome ? "income" : "expense"
+      };
+    });
 
-  const aiInsights = [
-    {
-      id: 1,
-      type: "warning",
-      title: "Food Spending Alert",
-      description: "You've spent 45% more on food delivery this month compared to last month. Consider cooking at home 2-3 times per week to save ₹3,500.",
-      action: "View Recommendations"
-    },
-    {
-      id: 2,
-      type: "success",
-      title: "Great Progress!",
-      description: "Your grocery spending is 18% below budget. You're on track to save ₹2,200 this month.",
-      action: null
-    },
-    {
-      id: 3,
-      type: "tip",
-      title: "Subscription Optimization",
-      description: "You have 3 OTT subscriptions totaling ₹1,500/month. Consider family plans to save ₹600 monthly.",
-      action: "Manage Subscriptions"
-    },
-    {
-      id: 4,
-      type: "info",
-      title: "Savings Potential",
-      description: "Based on your spending patterns, you could save an additional ₹8,500 this month by reducing discretionary expenses by 20%.",
-      action: "See Breakdown"
-    }
-  ];
+    // 5. Generate Top Merchants
+    const topMerchants = merchantsList.slice(0, 5).map((m, i) => ({
+      id: i + 1,
+      name: m.name,
+      category: m.cat,
+      amount: getRandomAmount(2000, 8000),
+      transactions: getRandomInt(3, 20)
+    })).sort((a, b) => b.amount - a.amount);
+
+    // 6. Generate Insights (Shuffle basic templates)
+    const possibleInsights = [
+      { type: "warning", title: "Food Spending Alert", description: `You've spent ${getRandomInt(30, 60)}% more on food delivery this month.`, action: "View Recommendations" },
+      { type: "success", title: "Great Progress!", description: `Your grocery spending is ${getRandomInt(10, 25)}% below budget.`, action: null },
+      { type: "tip", title: "Subscription Optimization", description: `You have ${getRandomInt(2, 5)} active subscriptions. Review them to save money.`, action: "Manage Subscriptions" },
+      { type: "info", title: "Savings Potential", description: `You could save an additional ₹${getRandomAmount(2000, 10000)} this month.`, action: "See Breakdown" },
+      { type: "warning", title: "Unusual Activity", description: "A transaction of ₹15,000 was detected at an unknown merchant.", action: "Review" }
+    ];
+    // Pick random 3-4 insights
+    const aiInsights = possibleInsights.sort(() => 0.5 - Math.random()).slice(0, 4).map((insight, i) => ({ ...insight, id: i + 1 }));
+
+    // Find biggest overspend category
+    const overspendCat = categoryData[0];
+    const budgetLimit = Math.round(overspendCat.value * 0.8 / 100) * 100;
+
+    return {
+      monthlySpending: currentMonthSpending,
+      monthlyChange,
+      categoryData,
+      dailyData,
+      weeklyData,
+      monthlyData,
+      recentTransactions,
+      topMerchants,
+      aiInsights,
+      overspend: {
+        category: overspendCat.name,
+        amount: overspendCat.value,
+        budgetLimit: budgetLimit,
+        percentage: Math.round(((overspendCat.value - budgetLimit) / budgetLimit) * 100) + 100 // simplistic calc for visual
+      }
+    };
+  }, []);
 
   const handleExportCSV = () => {
     const csvContent = [
       ["Date", "Merchant", "Category", "Amount", "Type"],
-      ...recentTransactions?.map(t => [
-        t?.date,
-        t?.merchant,
-        t?.category,
-        t?.amount,
-        t?.type
+      ...dashboardData.recentTransactions.map(t => [
+        t.date,
+        t.merchant,
+        t.category,
+        t.amount,
+        t.type
       ])
-    ]?.map(row => row?.join(","))?.join("\n");
+    ].map(row => row.join(",")).join("\n");
 
     const blob = new Blob([csvContent], { type: 'text/csv' });
-    const url = window.URL?.createObjectURL(blob);
+    const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `transactions_${new Date()?.toISOString()?.split('T')?.[0]}.csv`;
-    link?.click();
-    window.URL?.revokeObjectURL(url);
+    link.download = `transactions_${new Date().toISOString().split('T')[0]}.csv`;
+    link.click();
+    window.URL.revokeObjectURL(url);
 
     setShowExportSuccess(true);
     setTimeout(() => setShowExportSuccess(false), 3000);
@@ -217,42 +178,42 @@ const TransactionDashboard = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
             <div className="lg:col-span-2">
               <MonthlySpendingCard 
-                totalSpending={38500}
-                monthlyChange={12.5}
+                totalSpending={dashboardData.monthlySpending}
+                monthlyChange={dashboardData.monthlyChange}
                 comparisonText="vs last month"
               />
             </div>
             <div className="lg:col-span-1">
               <OverspendCategoryCard
-                category="Food"
-                amount={8500}
-                budgetLimit={6000}
-                percentage={42}
+                category={dashboardData.overspend.category}
+                amount={dashboardData.overspend.amount}
+                budgetLimit={dashboardData.overspend.budgetLimit}
+                percentage={dashboardData.overspend.percentage}
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            <CategoryPieChart data={categoryData} />
+            <CategoryPieChart data={dashboardData.categoryData} />
             <SpendingTrendsChart 
-              dailyData={dailyData}
-              weeklyData={weeklyData}
-              monthlyData={monthlyData}
+              dailyData={dashboardData.dailyData}
+              weeklyData={dashboardData.weeklyData}
+              monthlyData={dashboardData.monthlyData}
             />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
             <div className="lg:col-span-1">
-              <TopMerchantsCard merchants={topMerchants} />
+              <TopMerchantsCard merchants={dashboardData.topMerchants} />
             </div>
             <div className="lg:col-span-2">
-              <RecentTransactionsList transactions={recentTransactions} />
+              <RecentTransactionsList transactions={dashboardData.recentTransactions} />
             </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2">
-              <AIInsightsCard insights={aiInsights} />
+              <AIInsightsCard insights={dashboardData.aiInsights} />
             </div>
             <div className="lg:col-span-1">
               <QuickActionsPanel 
