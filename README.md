@@ -3,7 +3,9 @@
 Your Privacy-First AI Financial Companion. CashLens helps you track expenses, manage subscriptions, and gain AI-powered financial insights without your data ever leaving your device.
 
 ---
-## 📖 Table of Contents
+<details> 
+<summary><strong>📖 Table of Contents</strong></summary>
+  
 - [✨ Features](#-features)
 
 - [🛠️ Tech Stack](#️-tech-stack)
@@ -22,6 +24,7 @@ Your Privacy-First AI Financial Companion. CashLens helps you track expenses, ma
 - [🔒 Privacy Policy](#-privacy-policy)
 
 - [🤝 Contributing](#-contributing)
+</details>
 
 ## ✨ Features
 CashLens is packed with features designed to give you control over your financial life:
