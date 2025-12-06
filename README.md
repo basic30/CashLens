@@ -253,17 +253,21 @@ frontend:
     <tr>
       <!-- Sneha -->
       <td align="center" style="padding: 20px;">
-        <img src="https://i.ibb.co/zWw45FTJ/cropped-circle-image.png"
-             style="width:215px; margin-bottom:10px;">
+        <div style="width:50px; height:50px; border-radius:50%; overflow:hidden; margin-bottom:8px;">
+          <img src="https://i.ibb.co/zWw45FTJ/cropped-circle-image.png"
+               style="width:98%; height:98%; object-fit:cover;">
+        </div>
         <b>Sneha Majumder</b><br>
-        <i>Project Leader & Java Developer</i><br>
+        <i>Leader & Java Developer</i><br>
         <a href="https://github.com/SnehaMs325">GitHub</a> |
         <a href="https://linkedin.com/in/sneha-majumder-tech001">LinkedIn</a>
       </td>
       <!-- Snahasish -->
       <td align="center" style="padding: 20px;">
-        <img src="https://i.ibb.co/FLKgTN95/snahasish-2.png"
-             style="width:215px; margin-bottom:10px;">
+        <div style="width:50px; height:50px; border-radius:50%; overflow:hidden; margin-bottom:8px;">
+          <img src="https://i.ibb.co/FLKgTN95/snahasish-2.png"
+               style="width:100%; height:100%; object-fit:cover;">
+        </div>
         <b>Snahasish Dey</b><br>
         <i>Frontend Developer</i><br>
         <a href="https://github.com/basic30">GitHub</a> |
@@ -271,8 +275,10 @@ frontend:
       </td>
       <!-- Srijit -->
       <td align="center" style="padding: 20px;">
-        <img src="https://i.ibb.co/zhzC3bYQ/srijit.png"
-             style="width:215px; margin-bottom:10px;">
+        <div style="width:50px; height:50px; border-radius:50%; overflow:hidden; margin-bottom:8px;">
+          <img src="https://i.ibb.co/zhzC3bYQ/srijit.png"
+               style="width:94%; height:94%; object-fit:cover;">
+        </div>
         <b>Srijit Bhattacharya</b><br>
         <i>Full-Stack Developer</i><br>
         <a href="https://github.com/Sidibo">GitHub</a> |
@@ -280,8 +286,10 @@ frontend:
       </td>
       <!-- Sania -->
       <td align="center" style="padding: 20px;">
-        <img src="https://i.ibb.co/S4k46Ggd/sania.png"
-             style="width:227px; margin-bottom:20px;">
+        <div style="width:50px; height:50px; border-radius:50%; overflow:hidden; margin-bottom:8px;">
+          <img src="https://i.ibb.co/S4k46Ggd/sania.png"
+               style="width:100%; height:100%; object-fit:cover;">
+        </div>
         <b>Sania Ghosh</b><br>
         <i>UI & UX Designer</i><br>
         <a href="https://github.com/Sania2805">GitHub</a> |
